@@ -32,3 +32,41 @@ Builds an App and creates a release which can be promoted later
 Runs a command (such as a migration) using a previously built release before or after it is promoted
 ### [Promote](https://github.com/convox/action-promote)
 Promotes a release 
+
+Example workflow building a Rails app and running migrations before deploying:
+```
+name: CD
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: checkout
+      uses: actions/checkout@v1
+    - name: login
+      uses: convox/action-login@v1
+      with:
+        password: ${{ secrets.CONVOX_DEPLOY_KEY }}
+    - name: build
+      uses: convox/action-build@v1
+      with:
+        rack: staging
+        app: myrailsapp
+    - name: migrate
+      uses: convox/action-run@v1
+      with:
+        password: ${{ secrets.CONVOX_DEPLOY_KEY }}
+        rack: staging
+        app: myrailsapp
+        service: web
+        command: rake db:migrate
+    - name: promote
+      uses: convox/action-promote@v1
+      with:
+        rack: staging
+        app: myrailsapp
+
+
+```
