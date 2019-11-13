@@ -27,7 +27,7 @@ Convox provides a full set of Actions to enable a wide variety of deployment wor
 ### [Login](https://github.com/convox/action-login)
 Authenticates your Convox account You should run this action as the first step in your workflow
 ### [Build](https://github.com/convox/action-build)
-Builds an App and creates a release which can be promoted later
+Builds an app and creates a release which can be promoted later
 ### [Run](https://github.com/convox/action-run) 
 Runs a command (such as a migration) using a previously built release before or after it is promoted
 ### [Promote](https://github.com/convox/action-promote)
