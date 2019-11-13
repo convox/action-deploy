@@ -44,28 +44,35 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: checkout
+      id: checkout
       uses: actions/checkout@v1
     - name: login
+      id:login
       uses: convox/action-login@v1
       with:
         password: ${{ secrets.CONVOX_DEPLOY_KEY }}
     - name: build
+      id: build
       uses: convox/action-build@v1
       with:
         rack: staging
         app: myrailsapp
     - name: migrate
+      id:migrate
       uses: convox/action-run@v1
       with:
         rack: staging
         app: myrailsapp
         service: web
         command: rake db:migrate
+        release: ${{ steps.build.outputs.release }}
     - name: promote
+      id: promote
       uses: convox/action-promote@v1
       with:
         rack: staging
         app: myrailsapp
+        release: ${{ steps.build.outputs.release }}
 
 
 ```
