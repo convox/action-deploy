@@ -1,0 +1,20 @@
+name: Convox Deploy
+description: Build and Deploy a Convox app in a single step
+author: Convox
+inputs:
+  rack:
+    description: Convox Rack name
+    required: true
+  app:
+    description: Convox app name
+    required: true
+  password:
+    description: Convox deploy key value
+    required: false
+  host:
+    description: Convox Console host address
+    required: false
+    default: console.convox.com
+runs:
+  using: docker
+  image: Dockerfile
