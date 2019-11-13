@@ -1,6 +1,9 @@
 name: Convox Deploy
 description: Build and Deploy a Convox app in a single step
 author: Convox
+branding:
+  icon: upload-cloud
+  color: blue
 inputs:
   rack:
     description: Convox Rack name
