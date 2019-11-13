@@ -15,7 +15,7 @@ The Deploy action performs the functions of combining the [Build](https://github
 
 ## Example Usage
 ```
-uses: convox/actions/deploy@v1
+uses: convox/action-deploy@v1
 with:
   rack: staging
   app: myapp
@@ -57,7 +57,6 @@ jobs:
     - name: migrate
       uses: convox/action-run@v1
       with:
-        password: ${{ secrets.CONVOX_DEPLOY_KEY }}
         rack: staging
         app: myrailsapp
         service: web
