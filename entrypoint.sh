@@ -9,4 +9,4 @@ then
  export CONVOX_HOST=$INPUT_HOST
 fi
 export CONVOX_RACK=$INPUT_RACK
-convox deploy --app $INPUT_APP
+convox deploy --app $INPUT_APP --wait
