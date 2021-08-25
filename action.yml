@@ -18,6 +18,9 @@ inputs:
     description: Convox Console host address
     required: false
     default: console.convox.com
+  description:
+    description: Convox build description
+    required: false
 runs:
   using: docker
   image: Dockerfile
