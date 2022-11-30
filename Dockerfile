@@ -12,7 +12,7 @@ LABEL "com.github.actions.color"="blue"
 
 RUN apt-get -qq update && apt-get -qq -y install curl
 
-RUN curl -L https://convox.com/cli/linux/convox -o /tmp/convox \
+RUN curl -L https://github.com/convox/convox/releases/latest/download/convox-linux -o /tmp/convox \
     && mv /tmp/convox /usr/local/bin/convox \
     && chmod 755 /usr/local/bin/convox
 
