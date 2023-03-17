@@ -21,6 +21,10 @@ inputs:
   description:
     description: Convox build description
     required: false
+  cached:
+    description: Whether to utilise the docker cache during the build
+    required: false
+    default: true
 runs:
   using: docker
   image: Dockerfile
