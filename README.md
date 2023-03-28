@@ -11,6 +11,8 @@ The Deploy action performs the functions of combining the [Build](https://github
 **Required** The value of your [Convox Deploy Key](https://docs.convox.com/console/deploy-keys)
 ### `host`
 **Optional** The host name of your [Convox Console](https://docs.convox.com/introduction/console). This defaults to `console.convox.com` and only needs to be overwritten if you have a [self-hosted console](https://docs.convox.com/reference/hipaa-compliance#run-a-private-convox-console)
+### `cached`
+**Optional** Whether to utilise the docker cache during the build. Defaults to true.
 
 
 ## Example Usage
