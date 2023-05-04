@@ -13,6 +13,8 @@ The Deploy action performs the functions of combining the [Build](https://github
 **Optional** The host name of your [Convox Console](https://docs.convox.com/introduction/console). This defaults to `console.convox.com` and only needs to be overwritten if you have a [self-hosted console](https://docs.convox.com/reference/hipaa-compliance#run-a-private-convox-console)
 ### `cached`
 **Optional** Whether to utilise the docker cache during the build. Defaults to true.
+### `manifest`
+**Optional** Use a custom path for your convox.yml
 
 
 ## Example Usage
@@ -30,10 +32,10 @@ Convox provides a full set of Actions to enable a wide variety of deployment wor
 Authenticates your Convox account You should run this action as the first step in your workflow
 ### [Build](https://github.com/convox/action-build)
 Builds an app and creates a release which can be promoted later
-### [Run](https://github.com/convox/action-run) 
+### [Run](https://github.com/convox/action-run)
 Runs a command (such as a migration) using a previously built release before or after it is promoted
 ### [Promote](https://github.com/convox/action-promote)
-Promotes a release 
+Promotes a release
 
 Example workflow building a Rails app and running migrations before deploying:
 ```

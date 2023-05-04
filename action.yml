@@ -25,6 +25,9 @@ inputs:
     description: Whether to utilise the docker cache during the build
     required: false
     default: true
+  manifest:
+    description: Use a custom path for your convox.yml
+    required: false
 runs:
   using: docker
   image: Dockerfile
