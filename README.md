@@ -19,7 +19,7 @@ The Deploy action performs the functions of combining the [Build](https://github
 
 ## Example Usage
 ```
-uses: convox/action-deploy@v1
+uses: convox/action-deploy@2.0.0
 with:
   rack: staging
   app: myapp
