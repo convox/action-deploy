@@ -49,4 +49,4 @@ fi
 
 # shellcheck disable=SC2086
 # BUILDARGS_COMMAND/CACHED_COMMAND/MANIFEST_COMMAND are intentionally unquoted (word-split, may be empty)
-convox deploy --app "$INPUT_APP" --description "$INPUT_DESCRIPTION" $BUILDARGS_COMMAND $CACHED_COMMAND $MANIFEST_COMMAND
+convox deploy --app "$INPUT_APP" --description "$INPUT_DESCRIPTION" $BUILDARGS_COMMAND $CACHED_COMMAND $MANIFEST_COMMAND --wait
