@@ -22,4 +22,4 @@ if [ "$INPUT_MANIFEST" != "" ]; then
     MANIFEST_COMMAND="-m $INPUT_MANIFEST"
 fi
 
-convox deploy --app $INPUT_APP --description "$INPUT_DESCRIPTION" $CACHED_COMMAND $MANIFEST_COMMAND --wait
+convox deploy --app $INPUT_APP --description "$INPUT_DESCRIPTION" $CACHED_COMMAND $MANIFEST_COMMAND
