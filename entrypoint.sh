@@ -22,8 +22,13 @@ if [ "$INPUT_MANIFEST" != "" ]; then
     MANIFEST_COMMAND="-m $INPUT_MANIFEST"
 fi
 
+# Split the INPUT_BUILDARGS by comma into an array
 if [ "$INPUT_BUILDARGS" != "" ]; then
-    BUILDARGS_COMMAND="--build-args $INPUT_BUILDARGS"
+    IFS=',' read -ra ADDR <<< "$INPUT_BUILDARGS"
+    for i in "${ADDR[@]}"; do
+        # process each build argument and append it to the command
+        BUILDARGS_COMMAND="$BUILDARGS_COMMAND --build-args $i"
+    done
 fi
 
 convox deploy --app $INPUT_APP --description "$INPUT_DESCRIPTION" $BUILDARGS_COMMAND $CACHED_COMMAND $MANIFEST_COMMAND
