@@ -22,4 +22,8 @@ if [ "$INPUT_MANIFEST" != "" ]; then
     MANIFEST_COMMAND="-m $INPUT_MANIFEST"
 fi
 
-convox deploy --app $INPUT_APP --description "$INPUT_DESCRIPTION" $CACHED_COMMAND $MANIFEST_COMMAND
+if [ "$INPUT_BUILDARGS" != "" ]; then
+    BUILDARGS_COMMAND="--build-args $INPUT_BUILDARGS"
+fi
+
+convox deploy --app $INPUT_APP --description "$INPUT_DESCRIPTION" $BUILDARGS_COMMAND $CACHED_COMMAND $MANIFEST_COMMAND
