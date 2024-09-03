@@ -16,7 +16,7 @@ The Deploy action performs the functions of combining the [Build](https://github
 ### `manifest`
 **Optional** Use a custom path for your convox.yml
 ### `buildargs`
-**Optional** Pass docker build arguments to the build process. Build args are key-value pairs that are available to the RUN instruction of the Dockerfile. Defaults to none. Example: `buildargs: "FOO=bar, BAZ=qux"`
+**Optional** Pass docker build arguments to the build process. Build args are key-value pairs that are available to the RUN instruction to the Docker build. Defaults to none. Example: `buildargs: "FOO=bar, BAZ=qux"`
 
 
 ## Example Usage
