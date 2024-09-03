@@ -22,9 +22,9 @@ if [ "$INPUT_MANIFEST" != "" ]; then
     MANIFEST_COMMAND="-m $INPUT_MANIFEST"
 fi
 
-# Split the INPUT_BUILDARGS by comma into an array
+# Split the INPUT_BUILDARGS by newline into an array
 if [ "$INPUT_BUILDARGS" != "" ]; then
-    IFS=',' read -ra ADDR <<< "$INPUT_BUILDARGS"
+    IFS=$'\n' read -d '' -r -a ADDR <<< "$INPUT_BUILDARGS"
     for i in "${ADDR[@]}"; do
         # process each build argument and append it to the command
         BUILDARGS_COMMAND="$BUILDARGS_COMMAND --build-args $i"
