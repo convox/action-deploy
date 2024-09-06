@@ -16,11 +16,11 @@ The Deploy action performs the functions of combining the [Build](https://github
 ### `manifest`
 **Optional** Use a custom path for your convox.yml
 ### `buildargs`
-**Optional** Pass docker build arguments to the build process. Build args are key-value pairs passed as a list like:
+**Optional** Pass docker build arguments to the build process. Build args are key-value pairs separated by a newline:
 ```
-  build-args:
-     - BASEIMAGE=myimage
-     - MYARG=hello
+  buildargs: |
+    BASEIMAGE=myimage
+    MYARG=hello
 ```
 
 

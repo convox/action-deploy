@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 echo "Deploying"
 if [ -n "$INPUT_PASSWORD" ]
 then
