@@ -28,6 +28,9 @@ inputs:
   manifest:
     description: Use a custom path for your convox.yml
     required: false
+  buildargs:
+    description: Custom build arguments for the Docker build
+    required: false
 runs:
   using: docker
   image: Dockerfile

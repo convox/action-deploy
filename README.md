@@ -15,6 +15,13 @@ The Deploy action performs the functions of combining the [Build](https://github
 **Optional** Whether to utilise the docker cache during the build. Defaults to true.
 ### `manifest`
 **Optional** Use a custom path for your convox.yml
+### `buildargs`
+**Optional** Pass docker build arguments to the build process. Build args are key-value pairs separated by a newline:
+```
+  buildargs: |
+    BASEIMAGE=myimage
+    MYARG=hello
+```
 
 
 ## Example Usage
