@@ -8,9 +8,11 @@ The Deploy action performs the functions of combining the [Build](https://github
 ### `app`
 **Required** The name of the [app](https://docs.convox.com/deployment/creating-an-application) you wish to deploy to.
 ### `password`
-**Required** The value of your [Convox Deploy Key](https://docs.convox.com/console/deploy-keys)
+**Optional** The value of your [Convox Deploy Key](https://docs.convox.com/console/deploy-keys). Only needed if you are not using a separate [Login](https://github.com/convox/action-login) step.
 ### `host`
 **Optional** The host name of your [Convox Console](https://docs.convox.com/introduction/console). This defaults to `console.convox.com` and only needs to be overwritten if you have a [self-hosted console](https://docs.convox.com/reference/hipaa-compliance#run-a-private-convox-console)
+### `description`
+**Optional** A description for the build.
 ### `cached`
 **Optional** Whether to utilise the docker cache during the build. Defaults to true.
 ### `manifest`
@@ -59,7 +61,7 @@ jobs:
       uses: actions/checkout@v1
     - name: login
       id:login
-      uses: convox/action-login@v1
+      uses: convox/action-login@v2
       with:
         password: ${{ secrets.CONVOX_DEPLOY_KEY }}
     - name: build
