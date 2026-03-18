@@ -1,4 +1,15 @@
 #!/bin/bash
+set -e
+
+if [ -z "${INPUT_RACK:-}" ]; then
+  echo "::error::Required input 'rack' is missing"
+  exit 1
+fi
+if [ -z "${INPUT_APP:-}" ]; then
+  echo "::error::Required input 'app' is missing"
+  exit 1
+fi
+
 echo "Deploying"
 if [ -n "$INPUT_PASSWORD" ]
 then
