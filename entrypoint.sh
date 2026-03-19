@@ -1,14 +1,25 @@
 #!/bin/bash
+set -e
+
+if [ -z "${INPUT_RACK:-}" ]; then
+  echo "::error::Required input 'rack' is missing"
+  exit 1
+fi
+if [ -z "${INPUT_APP:-}" ]; then
+  echo "::error::Required input 'app' is missing"
+  exit 1
+fi
+
 echo "Deploying"
 if [ -n "$INPUT_PASSWORD" ]
 then
-    export CONVOX_PASSWORD=$INPUT_PASSWORD
+    export CONVOX_PASSWORD="$INPUT_PASSWORD"
 fi
 if [ -n "$INPUT_HOST" ]
 then
-    export CONVOX_HOST=$INPUT_HOST
+    export CONVOX_HOST="$INPUT_HOST"
 fi
-export CONVOX_RACK=$INPUT_RACK
+export CONVOX_RACK="$INPUT_RACK"
 
 # Initialize variables for the command options
 CACHED_COMMAND=""
@@ -36,4 +47,6 @@ if [ "$INPUT_BUILDARGS" != "" ]; then
     done
 fi
 
-convox deploy --app $INPUT_APP --description "$INPUT_DESCRIPTION" $BUILDARGS_COMMAND $CACHED_COMMAND $MANIFEST_COMMAND
+# shellcheck disable=SC2086
+# BUILDARGS_COMMAND/CACHED_COMMAND/MANIFEST_COMMAND are intentionally unquoted (word-split, may be empty)
+convox deploy --app "$INPUT_APP" --description "$INPUT_DESCRIPTION" $BUILDARGS_COMMAND $CACHED_COMMAND $MANIFEST_COMMAND
