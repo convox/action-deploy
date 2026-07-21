@@ -11,42 +11,31 @@ if [ -z "${INPUT_APP:-}" ]; then
 fi
 
 echo "Deploying"
-if [ -n "$INPUT_PASSWORD" ]
-then
-    export CONVOX_PASSWORD="$INPUT_PASSWORD"
-fi
-if [ -n "$INPUT_HOST" ]
-then
-    export CONVOX_HOST="$INPUT_HOST"
-fi
+
+# Export Convox environment variables
+[ -n "$INPUT_PASSWORD" ] && export CONVOX_PASSWORD="$INPUT_PASSWORD"
+[ -n "$INPUT_HOST" ]     && export CONVOX_HOST="$INPUT_HOST"
 export CONVOX_RACK="$INPUT_RACK"
 
-# Initialize variables for the command options
-CACHED_COMMAND=""
-MANIFEST_COMMAND=""
-
-if [ "$INPUT_CACHED" = "false" ]; then
-    CACHED_COMMAND="--no-cache"
-fi
-
-if [ "$INPUT_MANIFEST" != "" ]; then
-    MANIFEST_COMMAND="-m $INPUT_MANIFEST"
-fi
+# Build optional flags
+ARGS=""
+[ "$INPUT_CACHED" = "false" ] && ARGS="$ARGS --no-cache"
+[ -n "$INPUT_MANIFEST" ]      && ARGS="$ARGS -m $INPUT_MANIFEST"
+[ "$INPUT_FORCE"  = "true"  ] && ARGS="$ARGS --force"
 
 # Split the INPUT_BUILDARGS by newline into an array
 if [ "$INPUT_BUILDARGS" != "" ]; then
-    IFS=$'\n' read -d '' -r -a ADDR <<< "$INPUT_BUILDARGS"  # Split build arguments by newline
+    IFS=$'\n' read -d '' -r -a ADDR <<< "$INPUT_BUILDARGS"
 
     for ARG in "${ADDR[@]}"; do
-        # Extract key and value (handle empty lines or invalid format)
         KEY=${ARG%%=*}
         VALUE=${ARG#*=}
         if [[ -n "$KEY" && -n "$VALUE" ]]; then
-            BUILDARGS_COMMAND="$BUILDARGS_COMMAND --build-args $KEY=$VALUE"
+            ARGS="$ARGS --build-args $KEY=$VALUE"
         fi
     done
 fi
 
 # shellcheck disable=SC2086
-# BUILDARGS_COMMAND/CACHED_COMMAND/MANIFEST_COMMAND are intentionally unquoted (word-split, may be empty)
-convox deploy --app "$INPUT_APP" --description "$INPUT_DESCRIPTION" $BUILDARGS_COMMAND $CACHED_COMMAND $MANIFEST_COMMAND --wait
+# ARGS is intentionally unquoted (word-split, may be empty)
+convox deploy --app "$INPUT_APP" --description "$INPUT_DESCRIPTION" $ARGS --wait

@@ -31,6 +31,10 @@ inputs:
   buildargs:
     description: Custom build arguments for the Docker build
     required: false
+  force:
+    description: Whether to force the deployment
+    required: false
+    default: 'true'
 runs:
   using: docker
   image: Dockerfile
