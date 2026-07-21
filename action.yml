@@ -34,7 +34,7 @@ inputs:
   force:
     description: Whether to force the deployment
     required: false
-    default: 'true'
+    default: "true"
 runs:
   using: docker
   image: Dockerfile
