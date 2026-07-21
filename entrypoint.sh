@@ -21,7 +21,6 @@ export CONVOX_RACK="$INPUT_RACK"
 ARGS=""
 [ "$INPUT_CACHED" = "false" ] && ARGS="$ARGS --no-cache"
 [ -n "$INPUT_MANIFEST" ]      && ARGS="$ARGS -m $INPUT_MANIFEST"
-[ "$INPUT_FORCE"  = "true"  ] && ARGS="$ARGS --force"
 
 # Split the INPUT_BUILDARGS by newline into an array
 if [ "$INPUT_BUILDARGS" != "" ]; then
