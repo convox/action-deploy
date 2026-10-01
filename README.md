@@ -10,7 +10,7 @@ The Deploy action performs the functions of combining the [Build](https://github
 ### `password`
 **Optional** The value of your [Convox Deploy Key](https://docs.convox.com/console/deploy-keys). Only needed if you are not using a separate [Login](https://github.com/convox/action-login) step.
 ### `host`
-**Optional** The host name of your [Convox Console](https://docs.convox.com/introduction/console). This defaults to `console.convox.com` and only needs to be overwritten if you have a [self-hosted console](https://docs.convox.com/reference/hipaa-compliance#run-a-private-convox-console)
+**Optional** The host name of your [Convox Console](https://docs.convox.com/introduction/console). This defaults to `console.convox.com` and only needs to be overwritten if you have a [self-hosted console](https://docs.convox.com/reference/hipaa-compliance#run-a-private-convox-console). With a self-hosted console, set `host` on this step even when a separate [Login](https://github.com/convox/action-login) step already sets it, because this input replaces the host from the Login step.
 ### `description`
 **Optional** A description for the build.
 ### `cached`
@@ -24,11 +24,12 @@ The Deploy action performs the functions of combining the [Build](https://github
     BASEIMAGE=myimage
     MYARG=hello
 ```
+Lines with an empty value are skipped. Values cannot contain spaces or tabs, and a value containing a comma is split into separate build args.
 
 
 ## Example Usage
 ```
-uses: convox/action-deploy@2.0.0
+uses: convox/action-deploy@v2
 with:
   rack: staging
   app: myapp
@@ -58,20 +59,20 @@ jobs:
     steps:
     - name: checkout
       id: checkout
-      uses: actions/checkout@v1
+      uses: actions/checkout@v4
     - name: login
-      id:login
+      id: login
       uses: convox/action-login@v2
       with:
         password: ${{ secrets.CONVOX_DEPLOY_KEY }}
     - name: build
       id: build
-      uses: convox/action-build@v1
+      uses: convox/action-build@v2
       with:
         rack: staging
         app: myrailsapp
     - name: migrate
-      id:migrate
+      id: migrate
       uses: convox/action-run@v1
       with:
         rack: staging
@@ -86,6 +87,7 @@ jobs:
         rack: staging
         app: myrailsapp
         release: ${{ steps.build.outputs.release }}
-
-
 ```
+
+## Convox CLI version
+This action installs the latest Convox CLI release when its image is built, so the action's version tag does not pin the CLI. On GitHub-hosted runners that happens on every run. On a self-hosted runner with a persistent Docker daemon, the CLI stays at the version cached in that daemon until its build cache is pruned.
