@@ -21,32 +21,37 @@ then
 fi
 export CONVOX_RACK="$INPUT_RACK"
 
-# Initialize variables for the command options
-CACHED_COMMAND=""
-MANIFEST_COMMAND=""
+args=(--app "$INPUT_APP" --description "$INPUT_DESCRIPTION")
+
+while IFS= read -r line || [ -n "$line" ]; do
+    line="${line#"${line%%[![:space:]]*}"}"
+    line="${line%"${line##*[![:space:]]}"}"
+    key="${line%%=*}"
+    value="${line#*=}"
+    if [ -z "$key" ] || [ -z "$value" ]; then
+        continue
+    fi
+    case "$line" in
+        *[[:space:]]*)
+            echo "::error::Build arg '$key' contains whitespace, which the build cannot receive intact"
+            exit 1
+            ;;
+    esac
+    if [ "$line" = "$key" ]; then
+        echo "::warning::Build arg '$key' has no '=' and is sent as $key=$key"
+    fi
+    if [[ "$value" == *,* ]]; then
+        echo "::warning::Build arg '$key' contains a comma, which splits it into separate build args"
+    fi
+    args+=(--build-args "$key=$value")
+done <<< "${INPUT_BUILDARGS:-}"
 
 if [ "$INPUT_CACHED" = "false" ]; then
-    CACHED_COMMAND="--no-cache"
+    args+=(--no-cache)
 fi
 
-if [ "$INPUT_MANIFEST" != "" ]; then
-    MANIFEST_COMMAND="-m $INPUT_MANIFEST"
+if [ -n "$INPUT_MANIFEST" ]; then
+    args+=(-m "$INPUT_MANIFEST")
 fi
 
-# Split the INPUT_BUILDARGS by newline into an array
-if [ "$INPUT_BUILDARGS" != "" ]; then
-    IFS=$'\n' read -d '' -r -a ADDR <<< "$INPUT_BUILDARGS"  # Split build arguments by newline
-
-    for ARG in "${ADDR[@]}"; do
-        # Extract key and value (handle empty lines or invalid format)
-        KEY=${ARG%%=*}
-        VALUE=${ARG#*=}
-        if [[ -n "$KEY" && -n "$VALUE" ]]; then
-            BUILDARGS_COMMAND="$BUILDARGS_COMMAND --build-args $KEY=$VALUE"
-        fi
-    done
-fi
-
-# shellcheck disable=SC2086
-# BUILDARGS_COMMAND/CACHED_COMMAND/MANIFEST_COMMAND are intentionally unquoted (word-split, may be empty)
-convox deploy --app "$INPUT_APP" --description "$INPUT_DESCRIPTION" $BUILDARGS_COMMAND $CACHED_COMMAND $MANIFEST_COMMAND
+convox deploy "${args[@]}"
